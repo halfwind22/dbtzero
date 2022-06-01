@@ -1,0 +1,24 @@
+#Helps in configurations regarding sources, in this case its used to define
+#freshness of data.
+
+version: 2
+
+sources:
+  - name: airbnb
+    schema: raw
+    freshness:
+      warn_after: {count: 6, period: hour}
+      error_after: {count: 24, period: hour}
+    tables:
+      - name: listings
+        identifier: raw_listings
+
+      - name: hosts
+        identifier: raw_hosts
+
+      - name: reviews
+        identifier: raw_reviews
+        loaded_at_field: date
+        freshness:
+          warn_after: {count: 6, period: hour}
+          error_after: {count: 24, period: hour}

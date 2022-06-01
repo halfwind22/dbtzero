@@ -1,0 +1,33 @@
+#Defines the schema of your models
+
+version: 2
+
+models:
+  - name : dim_hosts
+    columns:
+      - name : host_id
+        tests :
+          - unique
+          - not_null
+      - name : IS_SUPERHOST
+        tests:
+          - accepted_values:
+              values: ['f','t']
+
+  - name : dim_listings
+    columns:
+      - name : listing_id
+        tests :
+          - unique
+          - not_null
+      - name : HOST_ID
+        tests:
+          - relationships:
+              to: ref('dim_hosts')
+              field: HOST_ID
+      - name : ROOM_TYPE
+        tests:
+          - restrict_roomtype
+
+  - name: fct_reviews
+    description: '{{ doc("fct_reviews_desc") }}'
